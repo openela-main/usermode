@@ -1,0 +1,22 @@
+From 79c1ddd9fbea9cdc2bc973a3d271e9c9617d5eb7 Mon Sep 17 00:00:00 2001
+From: Jiri Kucera <jkucera@redhat.com>
+Date: Apr 28 2021 08:24:20 +0000
+Subject: Fix typo
+
+
+---
+
+diff --git a/pam-panel-icon.1 b/pam-panel-icon.1
+index 5f891dc..2563627 100644
+--- a/pam-panel-icon.1
++++ b/pam-panel-icon.1
+@@ -40,7 +40,7 @@ timestamp status.
+ If the
+ .B pam_timestamp
+ authorization is active,
+-allowing an unprivileted user to temporarily authenticate as the
++allowing an unprivileged user to temporarily authenticate as the
+ .B root
+ user without providing a password,
+ an icon in the notification area of the panel is displayed.
+
