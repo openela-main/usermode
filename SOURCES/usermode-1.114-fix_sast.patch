@@ -1,0 +1,21 @@
+diff -up usermode-1.114/gsmclient.c.fix_sast usermode-1.114/gsmclient.c
+--- usermode-1.114/gsmclient.c.fix_sast	2024-08-06 17:42:30.778556066 +0200
++++ usermode-1.114/gsmclient.c	2024-08-06 17:42:30.847556790 +0200
+@@ -182,6 +182,7 @@ gsm_client_init (GsmClient *client, gpoi
+   char pid_str[64];
+   int   empty_vector_len = 0;
+   char *empty_vector[] = { NULL };
++  gchar *gchptr;
+ 
+   (void)data;
+   client->priv = g_new (GsmClientPrivate, 1);
+@@ -198,7 +199,8 @@ gsm_client_init (GsmClient *client, gpoi
+    * with an empty proplist)
+    */
+   push_prop (client, smprop_new_string (GSM_CLIENT_PROPERTY_CURRENT_DIRECTORY,
+-                                        g_get_current_dir (), -1));
++                                        (gchptr=g_get_current_dir ()), -1));
++  g_free(gchptr);
+ 
+   g_snprintf (pid_str, sizeof (pid_str), "%d", (int) getpid ());
+   push_prop (client, smprop_new_string (GSM_CLIENT_PROPERTY_PROCESS_ID,

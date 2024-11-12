@@ -4,11 +4,12 @@
 Summary: Tools for certain user account management tasks
 Name: usermode
 Version: 1.114
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPLv2+
 URL: https://pagure.io/%{name}/
 Source: https://releases.pagure.org/%{name}/%{name}-%{version}.tar.xz
 Source1: config-util
+Patch1:  usermode-1.114-fix_sast.patch
 Requires: pam, passwd, util-linux
 # https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/IJFYI5Q2BYZKIGDFS2WLOBDUSEGWHIKV/
 BuildRequires: make
@@ -48,6 +49,7 @@ graphical tools for certain account management tasks.
 
 %prep
 %setup -q
+%patch -P 1 -p1 -b .fix_sast
 
 %build
 %configure --with-selinux --without-fexecve %{!?with_gtk:--without-gtk}
@@ -108,6 +110,9 @@ done
 %endif
 
 %changelog
+* Tue Aug 06 2024 Michal Hlavinka <mhlavink@redhat.com> - 1.114-5
+- fix static analysis findings (RHEL-27043)
+
 * Thu Dec 09 2021 Jiri Kucera <jkucera@redhat.com> - 1.114-4
 - Rebuild with new annobin
   Related: #1984417
