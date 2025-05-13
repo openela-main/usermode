@@ -1,0 +1,163 @@
+diff -up usermode-1.114/userhelper.c.fixfree usermode-1.114/userhelper.c
+--- usermode-1.114/userhelper.c.fixfree	2025-01-23 23:33:24.778721387 +0100
++++ usermode-1.114/userhelper.c	2025-01-23 23:57:54.375799100 +0100
+@@ -1749,7 +1755,6 @@ wrap(const char *user, const char *progr
+ 		   displaying any unwanted GUI dialogs. */
+ 		retval = pipe_conv_exec_start(data);
+ 		if (retval != 0) {
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			die(data, retval);
+ 		}
+@@ -1802,7 +1808,6 @@ wrap(const char *user, const char *progr
+ 				/* Nope, not there, either. */
+ 				debug_msg("userhelper: couldn't find wrapped "
+ 					  "binary\n");
+-				g_strfreev(environ);
+ 				environ = environ_save;
+ 				die(data, ERR_NO_PROGRAM);
+ 			}
+@@ -1837,7 +1843,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 		close(fd);
+ #endif
+-		g_strfreev(environ);
+ 		environ = environ_save;
+ 		die(data, ERR_NO_USER);
+ 	}
+@@ -1934,7 +1940,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 		close(fd);
+ #endif
+-		g_strfreev(environ);
+ 		environ = environ_save;
+ 		fail_exit(data, retval);
+ 	}
+@@ -1957,7 +1963,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 			close(fd);
+ #endif
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			fail_exit(data, retval);
+ 		} else
+@@ -1965,7 +1971,6 @@ wrap(const char *user, const char *progr
+ 			/* Reset the user's environment so that the
+ 			 * application can run normally. */
+ 			argv[optind - 1] = strdup(program);
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			become_normal(data, user);
+ 			if (data->input != NULL) {
+@@ -2008,7 +2014,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 			close(fd);
+ #endif
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			fail_exit(data, retval);
+ 		}
+@@ -2022,7 +2028,6 @@ wrap(const char *user, const char *progr
+ 		close(fd);
+ #endif
+ 		pam_end(data->pamh, retval);
+-		g_strfreev(environ);
+ 		environ = environ_save;
+ 		fail_exit(data, retval);
+ 	}
+@@ -2030,7 +2036,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 		close(fd);
+ #endif
+-		g_strfreev(environ);
+ 		environ = environ_save;
+ 		die(data, ERR_UNK_ERROR);
+ 	}
+@@ -2043,7 +2049,6 @@ wrap(const char *user, const char *progr
+ 		close(fd);
+ #endif
+ 		pam_end(data->pamh, retval);
+-		g_strfreev(environ);
+ 		environ = environ_save;
+ 		fail_exit(data, retval);
+ 	}
+@@ -2056,7 +2062,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 		close(fd);
+ #endif
+-		g_strfreev(environ);
+ 		environ = environ_save;
+ 		die(data, ERR_NO_USER);
+ 	}
+@@ -2081,7 +2087,6 @@ wrap(const char *user, const char *progr
+ 			close(fd);
+ #endif
+ 			pam_end(data->pamh, retval);
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			fail_exit(data, retval);
+ 		}
+@@ -2094,7 +2100,6 @@ wrap(const char *user, const char *progr
+ 			close(fd);
+ #endif
+ 			pam_end(data->pamh, retval);
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			fail_exit(data, retval);
+ 		}
+@@ -2105,7 +2111,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 			close(fd);
+ #endif
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			die(data, ERR_EXEC_FAILED);
+ 		}
+@@ -2143,7 +2149,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 				close(fd);
+ #endif
+-				g_strfreev(environ);
+ 				environ = environ_save;
+ 				die(data, retval);
+ 			}
+@@ -2175,7 +2181,6 @@ wrap(const char *user, const char *progr
+ 			       cmdline, user, strerror(errno));
+ 			if (data->output != NULL)
+ 				pipe_conv_exec_fail(data);
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			die(data, ERR_EXEC_FAILED);
+ 		}
+@@ -2197,7 +2203,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 			close(fd);
+ #endif
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			fail_exit(data, retval);
+ 		}
+@@ -2207,7 +2213,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 		close(fd);
+ #endif
+-		g_strfreev(environ);
+ 		environ = environ_save;
+ 		if (WIFEXITED(status))
+ 			exit(WEXITSTATUS(status));
+@@ -2241,7 +2247,6 @@ wrap(const char *user, const char *progr
+ #ifdef HAVE_FEXECVE
+ 			close(fd);
+ #endif
+-			g_strfreev(environ);
+ 			environ = environ_save;
+ 			die(data, retval);
+ 		}
+@@ -2270,7 +2276,6 @@ wrap(const char *user, const char *progr
+ 		       "root privileges on behalf of '%s': %s",
+ 		       cmdline, user, strerror(errno));
+ 		pipe_conv_exec_fail(data);
+-		g_strfreev(environ);
+ 		environ = environ_save;
+ 		die(data, ERR_EXEC_FAILED);
+ 	}
