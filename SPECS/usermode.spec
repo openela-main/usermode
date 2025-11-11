@@ -9,13 +9,16 @@
 Summary: Tools for certain user account management tasks
 Name: usermode
 Version: 1.114
-Release: 12%{?dist}
+Release: 13%{?dist}
 License: GPL-2.0-or-later
 URL: https://pagure.io/%{name}/
 Source: https://releases.pagure.org/%{name}/%{name}-%{version}.tar.xz
 Source1: config-util
 # do not free environ as glibc may want to do that, RHEL-73769
 Patch2:  usermode-1.114-fixfree.patch
+
+# sent upstream, for <= 1.114, RHEL-90414
+Patch3:  usermode-1.114-fixnoargs.patch
 Requires: pam, passwd, util-linux
 # https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/IJFYI5Q2BYZKIGDFS2WLOBDUSEGWHIKV/
 BuildRequires: make
@@ -56,6 +59,7 @@ graphical tools for certain account management tasks.
 %prep
 %setup -q
 %patch -P 2 -p1 -b .fixfree
+%patch -P 3 -p2 -b .fixnoargs
 
 %build
 %configure --with-selinux --without-fexecve %{!?with_gtk:--without-gtk}
@@ -116,6 +120,9 @@ done
 %endif
 
 %changelog
+* Tue Jul 15 2025 Michal Hlavinka <mhlavink@redhat.com> - 1.114-13
+- do not crash when missing action argument (RHEL-102581)
+
 * Wed Jan 22 2025 Michal Hlavinka <mhlavink@redhat.com> - 1.114-12
 - do not (double) free environ as glibc may want to do that (RHEL-73769)
 

@@ -1,0 +1,16 @@
+diff -up usermode-1.114-build/usermode-1.114/userhelper.c.fixnoargs usermode-1.114-build/usermode-1.114/userhelper.c
+--- usermode-1.114-build/usermode-1.114/userhelper.c.fixnoargs	2025-07-09 00:13:58.800352637 +0200
++++ usermode-1.114-build/usermode-1.114/userhelper.c	2025-07-09 00:13:58.814677097 +0200
+@@ -2397,6 +2397,12 @@ main(int argc, char **argv)
+ 		exit(ERR_INVALID_CALL);
+ 	}
+ 
++	if (!SHELL_FLAGS && !c_flag && !w_flag) {
++		debug_msg("userhelper: invalid call: "
++			"missing action argument\n");
++		exit(ERR_INVALID_CALL);
++	}
++
+ 	/* Determine which conversation function to use. */
+ 	if (t_flag) {
+ 		/* We were told to use text mode. */
