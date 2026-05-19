@@ -9,7 +9,7 @@
 Summary: Tools for certain user account management tasks
 Name: usermode
 Version: 1.114
-Release: 13%{?dist}
+Release: 14%{?dist}
 License: GPL-2.0-or-later
 URL: https://pagure.io/%{name}/
 Source: https://releases.pagure.org/%{name}/%{name}-%{version}.tar.xz
@@ -98,6 +98,7 @@ done
 %{_bindir}/consolehelper
 %{_mandir}/man8/userhelper.8*
 %{_mandir}/man8/consolehelper.8*
+%dir /etc/security/console.apps
 %config(noreplace) /etc/security/console.apps/config-util
 
 %if %{with gtk}
@@ -120,6 +121,9 @@ done
 %endif
 
 %changelog
+* Wed Aug 27 2025 Michal Hlavinka <mhlavink@redhat.com> - 1.114-14
+- take ownership of console.apps as pam no longer owns it (RHEL-67845)
+
 * Tue Jul 15 2025 Michal Hlavinka <mhlavink@redhat.com> - 1.114-13
 - do not crash when missing action argument (RHEL-102581)
 
